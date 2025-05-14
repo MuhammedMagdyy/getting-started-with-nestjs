@@ -1,12 +1,12 @@
 /* eslint-disable no-console */
 import { NestFactory } from '@nestjs/core';
 import 'dotenv/config';
-import { AppModule } from './app.module';
+import { CarModule } from './car/car.module';
 
 const port = process.env.PORT ?? 3000;
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(CarModule);
   await app.listen(port);
 }
 
