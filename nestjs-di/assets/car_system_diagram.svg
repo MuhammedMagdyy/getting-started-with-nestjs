@@ -1,0 +1,65 @@
+<svg viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg">
+  <!-- Car Module -->
+  <rect x="340" y="20" width="320" height="130" fill="#ffcccc" rx="5" ry="5"/>
+  <text x="500" y="60" font-family="Arial" font-size="24" text-anchor="middle" font-weight="bold">Car Module</text>
+  
+  <!-- Car Controller -->
+  <rect x="380" y="75" width="240" height="60" fill="#f0f0f0" stroke="#000" rx="3" ry="3"/>
+  <line x1="380" y1="105" x2="620" y2="105" stroke="#000"/>
+  <text x="500" y="95" font-family="Arial" font-size="18" text-anchor="middle">Car Controller</text>
+  <text x="500" y="130" font-family="Arial" font-size="18" text-anchor="middle">move()</text>
+  
+  <!-- Engine Module -->
+  <rect x="100" y="250" width="290" height="130" fill="#d9e6ff" rx="5" ry="5"/>
+  <text x="245" y="290" font-family="Arial" font-size="24" text-anchor="middle" font-weight="bold">Engine Module</text>
+  
+  <!-- Engine Service -->
+  <rect x="125" y="310" width="240" height="60" fill="#f0f0f0" stroke="#000" rx="3" ry="3"/>
+  <line x1="125" y1="340" x2="365" y2="340" stroke="#000"/>
+  <text x="245" y="330" font-family="Arial" font-size="18" text-anchor="middle">Engine Service</text>
+  <text x="245" y="365" font-family="Arial" font-size="18" text-anchor="middle">start()</text>
+  
+  <!-- Conditioner Module -->
+  <rect x="610" y="250" width="290" height="130" fill="#fff5cc" rx="5" ry="5"/>
+  <text x="755" y="290" font-family="Arial" font-size="24" text-anchor="middle" font-weight="bold">Conditioner Module</text>
+  
+  <!-- Conditioner Service -->
+  <rect x="635" y="310" width="240" height="60" fill="#f0f0f0" stroke="#000" rx="3" ry="3"/>
+  <line x1="635" y1="340" x2="875" y2="340" stroke="#000"/>
+  <text x="755" y="330" font-family="Arial" font-size="18" text-anchor="middle">Conditioner Service</text>
+  <text x="755" y="365" font-family="Arial" font-size="18" text-anchor="middle">On()</text>
+  
+  <!-- Battery -->
+  <rect x="340" y="520" width="320" height="130" fill="#d9e6d9" rx="5" ry="5"/>
+  <text x="500" y="560" font-family="Arial" font-size="24" text-anchor="middle" font-weight="bold">Battery</text>
+  
+  <!-- Battery Service -->
+  <rect x="380" y="580" width="240" height="60" fill="#f0f0f0" stroke="#000" rx="3" ry="3"/>
+  <line x1="380" y1="610" x2="620" y2="610" stroke="#000"/>
+  <text x="500" y="600" font-family="Arial" font-size="18" text-anchor="middle">Battery Service</text>
+  <text x="500" y="635" font-family="Arial" font-size="18" text-anchor="middle">powerSupply()</text>
+  
+  <!-- Connections -->
+  <!-- Car to Engine -->
+  <line x1="500" y1="150" x2="245" y2="250" stroke="#000" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+  
+  <!-- Car to Conditioner -->
+  <line x1="500" y1="150" x2="755" y2="250" stroke="#000" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+  
+  <!-- Engine to Battery -->
+  <line x1="245" y1="370" x2="500" y2="520" stroke="#000" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+  
+  <!-- Conditioner to Battery -->
+  <line x1="755" y1="370" x2="500" y2="520" stroke="#000" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+  
+  <!-- Conditioner to Engine -->
+  <line x1="635" y1="320" x2="365" y2="320" stroke="#000" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+  
+  <!-- Arrow definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+            refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" />
+    </marker>
+  </defs>
+</svg>
