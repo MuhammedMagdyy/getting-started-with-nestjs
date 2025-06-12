@@ -1,6 +1,7 @@
 import {
   ConflictException,
   Injectable,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -67,6 +68,16 @@ export class UsersService {
       userType: user.userType,
     });
     return { token };
+  }
+
+  async getCurrentUser(id: number) {
+    const user = await this.userRepository.findOne({ where: { id } });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return user;
   }
 
   private async generateJwtToken(jwtPayload: JwtPayload): Promise<string> {
