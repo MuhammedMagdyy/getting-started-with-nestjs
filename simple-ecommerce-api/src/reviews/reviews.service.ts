@@ -1,5 +1,4 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
-import { UsersService } from 'src/users/users.service';
+import { Injectable } from '@nestjs/common';
 
 type Review = {
   id: number;
@@ -10,10 +9,7 @@ type Review = {
 
 @Injectable()
 export class ReviewsService {
-  constructor(
-    @Inject(forwardRef(() => UsersService))
-    private readonly usersService: UsersService,
-  ) {}
+  constructor() {}
 
   private reviews: Review[] = [
     { id: 1, productId: 1, rating: 5, comment: 'Excellent product!' },
