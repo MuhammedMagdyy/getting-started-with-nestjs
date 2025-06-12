@@ -1,5 +1,7 @@
 import { BaseEntity } from 'src/common/entities/base.entity';
-import { Column, Entity } from 'typeorm';
+import { Review } from 'src/reviews/entities/review.entity';
+import { User } from 'src/users/entities/user.entity';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 
 @Entity({ name: 'products' })
 export class Product extends BaseEntity {
@@ -11,4 +13,11 @@ export class Product extends BaseEntity {
 
   @Column({ type: 'float' })
   price: number;
+
+  @OneToMany(() => Review, (review) => review.product)
+  reviews: Review[];
+
+  @ManyToOne(() => User, (user) => user.products)
+  @JoinColumn({ name: 'user_id' })
+  user: User;
 }
