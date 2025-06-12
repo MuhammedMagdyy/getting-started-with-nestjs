@@ -6,7 +6,7 @@ import { UserType } from '../enums/user-type.enum';
 
 @Entity({ name: 'users' })
 export class User extends BaseEntity {
-  @Column({ type: 'varchar', length: 150 })
+  @Column({ type: 'varchar', length: 150, nullable: true })
   username: string;
 
   @Column({ type: 'varchar', length: 250, unique: true })
