@@ -4,8 +4,10 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { compare, genSalt, hash } from 'bcryptjs';
+import { AccessToken, JwtPayload } from 'src/common/utils/types';
 import { Repository } from 'typeorm';
 import { LoginDto } from './dtos/login.dto';
 import { RegisterDto } from './dtos/register.dto';
@@ -16,9 +18,10 @@ export class UsersService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
     private readonly configService: ConfigService,
+    private readonly jwtService: JwtService,
   ) {}
 
-  async register(registerDto: RegisterDto) {
+  async register(registerDto: RegisterDto): Promise<AccessToken> {
     const { email, password, username } = registerDto;
     const userExists = await this.userRepository.findOne({
       where: { email },
@@ -38,11 +41,14 @@ export class UsersService {
       username,
     });
 
-    // TODO: Generate JWT token
-    return await this.userRepository.save(newUser);
+    const token = await this.generateJwtToken({
+      id: newUser.id,
+      userType: newUser.userType,
+    });
+    return { token };
   }
 
-  async login(loginDto: LoginDto) {
+  async login(loginDto: LoginDto): Promise<AccessToken> {
     const { email, password } = loginDto;
     const user = await this.userRepository.findOne({ where: { email } });
 
@@ -56,7 +62,14 @@ export class UsersService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    // TODO: Generate JWT token
-    return user;
+    const token = await this.generateJwtToken({
+      id: user.id,
+      userType: user.userType,
+    });
+    return { token };
+  }
+
+  private async generateJwtToken(jwtPayload: JwtPayload): Promise<string> {
+    return this.jwtService.signAsync(jwtPayload);
   }
 }
