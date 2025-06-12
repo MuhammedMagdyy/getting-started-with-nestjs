@@ -14,8 +14,7 @@ import { ProductsService } from './products.service';
 
 @Controller('/api/products')
 export class ProductsController {
-  // TODO: Use dependency injection to inject the ProductsService
-  private productService: ProductsService = new ProductsService();
+  constructor(private readonly productService: ProductsService) {}
 
   @Post()
   create(@Body() body: CreateProductDto) {
