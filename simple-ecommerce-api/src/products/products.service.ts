@@ -1,55 +1,46 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateProductDto } from './dtos/create-product.dto';
 import { UpdateProductDto } from './dtos/update-product.dto';
-
-type Product = {
-  id: number;
-  title: string;
-  price: number;
-};
+import { Product } from './entities/product.entity';
 
 @Injectable()
 export class ProductsService {
-  private products: Product[] = [
-    { id: 1, title: 'Product 1', price: 100 },
-    { id: 2, title: 'Product 2', price: 200 },
-    { id: 3, title: 'Product 3', price: 300 },
-  ];
+  constructor(
+    @InjectRepository(Product)
+    private readonly productsRepository: Repository<Product>,
+  ) {}
 
-  create({ title, price }: CreateProductDto) {
-    const newProduct: Product = { id: this.products.length + 1, title, price };
-    this.products.push(newProduct);
-    return newProduct;
+  async create(createProductDto: CreateProductDto) {
+    const newProduct = this.productsRepository.create(createProductDto);
+    return await this.productsRepository.save(newProduct);
   }
 
-  findAll() {
-    return this.products;
+  async findAll() {
+    return await this.productsRepository.find();
   }
 
-  findOne(id: number) {
-    const product = this.products.find((p) => p.id === id);
+  async findOne(id: number) {
+    const product = await this.productsRepository.findOne({ where: { id } });
     if (!product) {
       throw new NotFoundException('Product not found');
     }
     return product;
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    const product = this.products.find((p) => p.id === id);
-    if (!product) {
-      throw new NotFoundException('Product not found');
-    }
+  async update(id: number, updateProductDto: UpdateProductDto) {
+    const product = await this.findOne(id);
+    product.title = updateProductDto.title ?? product.title;
+    product.description = updateProductDto.description ?? product.description;
+    product.price = updateProductDto.price ?? product.price;
 
-    console.log(updateProductDto);
-
-    return { message: 'Product updated successfully' };
+    return await this.productsRepository.save(product);
   }
 
-  delete(id: number) {
-    const product = this.products.find((p) => p.id === id);
-    if (!product) {
-      throw new NotFoundException('Product not found');
-    }
+  async delete(id: number) {
+    const product = await this.findOne(id);
+    await this.productsRepository.remove(product);
 
     return { message: 'Product deleted successfully' };
   }
