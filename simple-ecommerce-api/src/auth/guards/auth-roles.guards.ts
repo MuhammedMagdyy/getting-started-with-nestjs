@@ -11,8 +11,8 @@ import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { CURRENT_USER_KEY, ROLES_KEY } from 'src/common/utils/constants';
 import { JwtPayload } from 'src/common/utils/types';
-import { UserType } from '../enums/user-type.enum';
-import { UsersService } from '../users.service';
+import { UserType } from 'src/users/enums/user-type.enum';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class AuthRolesGuard implements CanActivate {

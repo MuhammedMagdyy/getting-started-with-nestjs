@@ -2,6 +2,7 @@ import { ClassSerializerInterceptor, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from './auth/auth.module';
 import { Product } from './products/entities/product.entity';
 import { ProductsModule } from './products/products.module';
 import { Review } from './reviews/entities/review.entity';
@@ -14,6 +15,7 @@ import { UsersModule } from './users/users.module';
     ProductsModule,
     ReviewsModule,
     UsersModule,
+    AuthModule,
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService) => {

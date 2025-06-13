@@ -3,41 +3,25 @@ import {
   Controller,
   Delete,
   Get,
-  HttpCode,
-  HttpStatus,
   Param,
   ParseIntPipe,
-  Post,
   Put,
   UseGuards,
 } from '@nestjs/common';
+import { AuthRolesGuard } from 'src/auth/guards/auth-roles.guards';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { JwtPayload } from 'src/common/utils/types';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { Roles } from './decorators/user-role.decorator';
-import { LoginDto } from './dtos/login.dto';
-import { RegisterDto } from './dtos/register.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UserType } from './enums/user-type.enum';
-import { AuthRolesGuard } from './guards/auth-roles.guards';
-import { AuthGuard } from './guards/auth.guard';
 import { UsersService } from './users.service';
 
 @Controller('/api/users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post('/auth/register')
-  async register(@Body() body: RegisterDto) {
-    return this.usersService.register(body);
-  }
-
-  @Post('/auth/login')
-  @HttpCode(HttpStatus.OK)
-  async login(@Body() body: LoginDto) {
-    return this.usersService.login(body);
-  }
-
-  @Get('/current-user')
+  @Get('/me')
   @UseGuards(AuthGuard)
   async getCurrentUser(@CurrentUser() payload: JwtPayload) {
     return this.usersService.getCurrentUser(payload.id);
