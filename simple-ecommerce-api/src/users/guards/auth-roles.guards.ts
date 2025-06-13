@@ -47,7 +47,7 @@ export class AuthRolesGuard implements CanActivate {
 
       const user = await this.userService.getCurrentUser(payload.id);
 
-      if (!user || !roles.includes(user.userType.toUpperCase() as UserType)) {
+      if (!user || !roles.includes(user.userType)) {
         return false;
       }
 
