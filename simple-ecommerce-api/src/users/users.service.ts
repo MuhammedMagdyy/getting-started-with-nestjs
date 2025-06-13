@@ -70,7 +70,7 @@ export class UsersService {
     return { token };
   }
 
-  async getCurrentUser(id: number) {
+  async getCurrentUser(id: number): Promise<User> {
     const user = await this.userRepository.findOne({ where: { id } });
 
     if (!user) {
@@ -78,6 +78,10 @@ export class UsersService {
     }
 
     return user;
+  }
+
+  async findAll(): Promise<User[]> {
+    return await this.userRepository.find();
   }
 
   private async generateJwtToken(jwtPayload: JwtPayload): Promise<string> {

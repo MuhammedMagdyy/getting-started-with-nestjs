@@ -9,8 +9,11 @@ import {
 } from '@nestjs/common';
 import { JwtPayload } from 'src/common/utils/types';
 import { CurrentUser } from './decorators/current-user.decorator';
+import { Roles } from './decorators/user-role.decorator';
 import { LoginDto } from './dtos/login.dto';
 import { RegisterDto } from './dtos/register.dto';
+import { UserType } from './enums/user-type.enum';
+import { AuthRolesGuard } from './guards/auth-roles.guards';
 import { AuthGuard } from './guards/auth.guard';
 import { UsersService } from './users.service';
 
@@ -33,5 +36,12 @@ export class UsersController {
   @UseGuards(AuthGuard)
   async getCurrentUser(@CurrentUser() payload: JwtPayload) {
     return this.usersService.getCurrentUser(payload.id);
+  }
+
+  @Get()
+  @Roles(UserType.ADMIN)
+  @UseGuards(AuthRolesGuard)
+  async findAll() {
+    return this.usersService.findAll();
   }
 }
