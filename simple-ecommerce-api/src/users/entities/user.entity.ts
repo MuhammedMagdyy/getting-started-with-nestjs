@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import { BaseEntity } from 'src/common/entities/base.entity';
 import { Product } from 'src/products/entities/product.entity';
 import { Review } from 'src/reviews/entities/review.entity';
@@ -13,6 +14,7 @@ export class User extends BaseEntity {
   email: string;
 
   @Column()
+  @Exclude()
   password: string;
 
   @Column({
