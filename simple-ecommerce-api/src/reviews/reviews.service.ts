@@ -48,8 +48,12 @@ export class ReviewsService {
     };
   }
 
-  async findAll() {
-    return await this.reviewRepository.find({ order: { createdAt: 'DESC' } });
+  async findAll(pageNumber: number, pageSize: number) {
+    return await this.reviewRepository.find({
+      skip: (pageNumber - 1) * pageSize,
+      take: pageSize,
+      order: { createdAt: 'DESC' },
+    });
   }
 
   async findOne(id: number) {

@@ -7,6 +7,7 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { AuthRolesGuard } from 'src/auth/guards/auth-roles.guards';
@@ -36,8 +37,11 @@ export class ReviewsController {
   @Get()
   @Roles(UserType.ADMIN)
   @UseGuards(AuthRolesGuard)
-  findAll() {
-    return this.reviewsService.findAll();
+  findAll(
+    @Query('pageNumber', ParseIntPipe) pageNumber: number,
+    @Query('pageSize', ParseIntPipe) pageSize: number,
+  ) {
+    return this.reviewsService.findAll(pageNumber, pageSize);
   }
 
   @Get('/:id')
