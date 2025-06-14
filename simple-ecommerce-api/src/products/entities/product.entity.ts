@@ -14,10 +14,10 @@ export class Product extends BaseEntity {
   @Column({ type: 'float' })
   price: number;
 
-  @OneToMany(() => Review, (review) => review.product)
+  @OneToMany(() => Review, (review) => review.product, { eager: true })
   reviews: Review[];
 
-  @ManyToOne(() => User, (user) => user.products)
+  @ManyToOne(() => User, (user) => user.products, { eager: true })
   @JoinColumn({ name: 'user_id' })
   user: User;
 }
