@@ -11,11 +11,16 @@ export class Review extends BaseEntity {
   @Column({ type: 'text' })
   comment: string;
 
-  @ManyToOne(() => Product, (product) => product.reviews)
+  @ManyToOne(() => Product, (product) => product.reviews, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'product_id' })
   product: Product;
 
-  @ManyToOne(() => User, (user) => user.reviews, { eager: true })
+  @ManyToOne(() => User, (user) => user.reviews, {
+    eager: true,
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'user_id' })
   user: User;
 }
