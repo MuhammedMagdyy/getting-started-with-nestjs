@@ -7,6 +7,7 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { AuthRolesGuard } from 'src/auth/guards/auth-roles.guards';
@@ -30,8 +31,12 @@ export class ProductsController {
   }
 
   @Get()
-  findAll() {
-    return this.productService.findAll();
+  findAll(
+    @Query('title') title: string,
+    @Query('minPrice') minPrice: string,
+    @Query('maxPrice') maxPrice: string,
+  ) {
+    return this.productService.findAll(title, minPrice, maxPrice);
   }
 
   @Get('/:id')
