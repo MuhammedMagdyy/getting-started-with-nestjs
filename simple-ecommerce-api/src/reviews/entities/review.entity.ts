@@ -15,7 +15,7 @@ export class Review extends BaseEntity {
   @JoinColumn({ name: 'product_id' })
   product: Product;
 
-  @ManyToOne(() => User, (user) => user.reviews)
+  @ManyToOne(() => User, (user) => user.reviews, { eager: true })
   @JoinColumn({ name: 'user_id' })
   user: User;
 }
