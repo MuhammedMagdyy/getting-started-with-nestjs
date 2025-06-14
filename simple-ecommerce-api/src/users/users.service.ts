@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ForbiddenException,
   forwardRef,
   Inject,
@@ -6,6 +7,8 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { unlinkSync } from 'fs';
+import { join } from 'path';
 import { AuthService } from 'src/auth/auth.service';
 import { JwtPayload } from 'src/common/utils/types';
 import { Repository } from 'typeorm';
@@ -67,5 +70,30 @@ export class UsersService {
 
     await this.userRepository.delete(id);
     return { message: 'User deleted successfully.' };
+  }
+
+  async setProfilePicture(userId: number, profileImage: string) {
+    const user = await this.getCurrentUser(userId);
+
+    if (user.profilePicture) {
+      await this.removeProfilePicture(userId);
+    }
+
+    user.profilePicture = profileImage;
+    return await this.userRepository.save(user);
+  }
+
+  async removeProfilePicture(userId: number) {
+    const user = await this.getCurrentUser(userId);
+    if (!user.profilePicture) {
+      throw new BadRequestException('No profile picture found for this user');
+    }
+    const imagePath = join(
+      process.cwd(),
+      `./images/users/${user.profilePicture}`,
+    );
+    unlinkSync(imagePath);
+    user.profilePicture = null;
+    return await this.userRepository.save(user);
   }
 }

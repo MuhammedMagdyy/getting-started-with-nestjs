@@ -28,6 +28,14 @@ export class User extends BaseEntity {
   @Column({ name: 'is_account_verified', default: false })
   isAccountVerified: boolean;
 
+  @Column({
+    name: 'profile_picture',
+    type: 'varchar',
+    nullable: true,
+    default: null,
+  })
+  profilePicture: string | null;
+
   @OneToMany(() => Product, (product) => product.user)
   products: Product[];
 
