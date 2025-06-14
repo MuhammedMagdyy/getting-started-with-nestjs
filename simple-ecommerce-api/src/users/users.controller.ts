@@ -15,10 +15,8 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Express, Response } from 'express';
-import { diskStorage } from 'multer';
 import { AuthRolesGuard } from 'src/auth/guards/auth-roles.guards';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
-import { MAX_FILE_SIZE } from 'src/common/utils/constants';
 import { JwtPayload } from 'src/common/utils/types';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { Roles } from './decorators/user-role.decorator';
@@ -65,33 +63,7 @@ export class UsersController {
 
   @Post('/images/upload-image')
   @UseGuards(AuthGuard)
-  @UseInterceptors(
-    FileInterceptor('image', {
-      storage: diskStorage({
-        destination: './images/users',
-        filename: (_req, file, cb) => {
-          const prefix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-          const fileName = `${prefix}-${file.originalname}`;
-          cb(null, fileName);
-        },
-      }),
-      fileFilter: (_req, file, cb) => {
-        const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-        if (!allowedTypes.includes(file.mimetype)) {
-          return cb(
-            new BadRequestException(
-              'Invalid file type. Only JPEG, PNG, and JPG files are allowed.',
-            ),
-            false,
-          );
-        }
-        cb(null, true);
-      },
-      limits: {
-        fileSize: MAX_FILE_SIZE,
-      },
-    }),
-  )
+  @UseInterceptors(FileInterceptor('image'))
   uploadProfilePicture(
     @UploadedFile() file: Express.Multer.File,
     @CurrentUser() payload: JwtPayload,
